@@ -3,40 +3,19 @@ import { WebClient, ChatPostMessageArguments } from '@slack/web-api';
 export const channelId = 'CHWRZT5NX'; // David-hardwario
 // 'CJ89EFT1N' - slack gadgets
 
+// BEWARE: Slack has limit of max 10 fields
+
 export const hardwario = async (payload: HardwarioPayload) => {
-  const fields = getRelevantFields(payload);
+  let fields = getRelevantFields(payload);
+  console.log('fields are', fields);
   const block = {
     "type": "section",
     "text": {
       "text": `*Hardwario ${payload.id}* sends periodic data ` + JSON.stringify(fields),
       "type": "mrkdwn"
     },
-    // fields: fields
+    fields: fields
   };
-// const block = {
-//   "type": "section",
-//   "text": {
-//     "text": "*Hardwario ID* sends periodic data",
-//     "type": "mrkdwn"
-//   },
-//   "fields": [
-//     {
-//       "type": "mrkdwn",
-//       "text": "*Attribute*"
-//     },
-//     {
-//       "type": "mrkdwn",
-//       "text": "*Value*"
-//     },
-//     {
-//       "type": "plain_text",
-//       "text": "High"
-//     },
-//     {
-//       "type": "plain_text",
-//       "text": "String"
-//     }]
-//   };
 
   const data: ChatPostMessageArguments = {
     'channel': channelId,
@@ -57,7 +36,7 @@ function getRelevantFields(payload: HardwarioPayload): Array<any> {
   let fields = [
     {
       "type": "mrkdwn",
-      "text": "*Attribute*"
+      "text": "*Parameter*"
     },
     {
       "type": "mrkdwn",
@@ -66,31 +45,42 @@ function getRelevantFields(payload: HardwarioPayload): Array<any> {
   ];
 
   const relevantValues = [
-   'rssi',
-   'sequence',
-   'altitude',
-   'co2-conc',
-   'humidity',
-   'illuminance',
-   'motion-count',
-   'orientation',
-   'press-count',
-   'pressure',
-   'sound-level',
-   'temperature',
-   'voc-conc',
+    {
+      prop: 'co2-conc',
+      desc: 'CO2 concentration',
+      units: 'ppm'
+    },
+    {
+      prop: 'humidity',
+      desc: 'Humidity',
+      units: '%'
+    },
+    {
+      prop: 'temperature',
+      desc: 'Temperature',
+      units: 'deg C'
+    },
+    {
+      prop: 'voc-conc',
+      desc: 'Volatile organic compounds',
+      units: 'ppb'
+    }
   ];
 
-  relevantValues.forEach((prop) => {
+  relevantValues.forEach((rv) => {
     fields.push({
       type: "plain_text",
-      text: prop
+      text: rv.desc
     });
+
+    const value = payload[rv.prop] != null ? (payload[rv.prop]).toString() : '-';
     fields.push({
       type: "plain_text",
-      text: payload[prop]
+      text: `${value} ${rv.units}`
     });
   });
+
+  console.log('fields are', fields);
 
   return fields;
 }
