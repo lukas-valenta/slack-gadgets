@@ -4,31 +4,31 @@ export const channelId = 'CHWRZT5NX'; // David-hardwario
 // 'CJ89EFT1N' - slack gadgets
 
 export const hardwario = async (payload: HardwarioPayload) => {
-  // const block = composeSlackBlock(payload);
-const block = {
-  "type": "section",
-  "text": {
-    "text": "*Hardwario ID* sends periodic data",
-    "type": "mrkdwn"
-  },
-  "fields": [
-    {
-      "type": "mrkdwn",
-      "text": "*Attribute*"
-    },
-    {
-      "type": "mrkdwn",
-      "text": "*Value*"
-    },
-    {
-      "type": "plain_text",
-      "text": "High"
-    },
-    {
-      "type": "plain_text",
-      "text": "String"
-    }]
-  };
+  const block = composeSlackBlock(payload);
+// const block = {
+//   "type": "section",
+//   "text": {
+//     "text": "*Hardwario ID* sends periodic data",
+//     "type": "mrkdwn"
+//   },
+//   "fields": [
+//     {
+//       "type": "mrkdwn",
+//       "text": "*Attribute*"
+//     },
+//     {
+//       "type": "mrkdwn",
+//       "text": "*Value*"
+//     },
+//     {
+//       "type": "plain_text",
+//       "text": "High"
+//     },
+//     {
+//       "type": "plain_text",
+//       "text": "String"
+//     }]
+//   };
 
   const data: ChatPostMessageArguments = {
     'channel': channelId,
@@ -75,7 +75,11 @@ function composeSlackBlock(payload: HardwarioPayload): any {
 
   relevantValues.forEach((prop) => {
     fields.push({
-      type: prop,
+      type: "plain_text",
+      text: prop
+    });
+    fields.push({
+      type: "plain_text",
       text: payload[prop]
     });
   });
