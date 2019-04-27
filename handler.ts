@@ -1,5 +1,5 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import Axios from 'axios';
+import { WebClient } from '@slack/web-api';
 import 'source-map-support/register';
 import { inspect } from 'util';
 
@@ -9,7 +9,8 @@ export const hello: APIGatewayProxyHandler = async (_event, _context) => {
       'channel': 'CJ89EFT1N',
       'text': 'Hello, World!',
     };
-    const response = await Axios.post('https://slack.com/api/chat.postMessage', data, { headers: { 'Authorization': 'Bearer xoxb-610636479856-608835635555-eKGmoL9HY6q3eih1SNMuOqBt' }});
+    const web = new WebClient('xoxb-610636479856-608835635555-92siNZYUqXnbgPiM9pnikvyc');
+    const response = await web.chat.postMessage(data);
       
     return {
       statusCode: 200,
