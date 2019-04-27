@@ -25,7 +25,7 @@ The example floor plan could look as follows:
 ![Example floor plan](doc/floor-plan.png)
 
 
-## System Concept
+## System Concept
 
 The technology stack consists of the following major technologies:
 
@@ -40,7 +40,7 @@ The technology stack consists of the following major technologies:
 ![System concept](doc/system-concept.png)
 
 
-## Requirements
+## Requirements
 
 * HARDWARIO COOPER Sensor
 * HARDWARIO COOPER Dongle
@@ -51,7 +51,7 @@ The technology stack consists of the following major technologies:
 > The BigClown Hub comes with the Radio Dongle.
 
 
-## Hub Installation
+## Hub Installation
 
 
 ### Step 1: SSH to BigClown Hub
@@ -66,7 +66,7 @@ The technology stack consists of the following major technologies:
   sudo pip3 install --upgrade cpgw cp2mqtt
 
 
-### Step 3: Copy configuration files:
+### Step 3: Copy configuration files:
 
 [cpgw.yml](edge/cooper/cpgw.yml)
 [cp2mqtt.yml](edge/cooper/cp2mqtt.yml)
