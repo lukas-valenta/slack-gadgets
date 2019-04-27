@@ -3,7 +3,7 @@ import { WebClient } from '@slack/web-api';
 import 'source-map-support/register';
 import { inspect } from 'util';
 import { motion } from './motion';
-import { hardwario } from './hardwario';
+import { hardwario } from './cooper';
 import { setAlias } from './src/slashes/set-alias';
 import * as querystring from 'querystring';
 
@@ -50,7 +50,7 @@ export const data: APIGatewayProxyHandler = async (event, _context) => {
   try {
     switch (true) {
       case /push-button/.test(body.topic):
-        await pushButtonHandler();
+        // await pushButtonHandler();
         break;
       case /motion-detector.*event-count/.test(body.topic):
         const [,id] = /motion-detector:(\d+)/.exec(body.topic);
