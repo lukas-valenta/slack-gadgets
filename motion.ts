@@ -31,7 +31,7 @@ export const motion = async (id: string) => {
       },
     }).promise();
     if (lastMovement && lastMovement.Items.length && lastMovement.Items[0].timestamp && 
-      ageInSeconds(Number(lastMovement.Items[0].timestamp)) > 5 * 60) {
+      ageInSeconds(Number(lastMovement.Items[0].timestamp)) > 1 * 60) {
       await web.chat.postMessage(data);
     }
 

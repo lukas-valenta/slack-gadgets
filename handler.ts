@@ -50,7 +50,7 @@ export const data: APIGatewayProxyHandler = async (event, _context) => {
     case /push-button/.test(body.topic):
       await pushButtonHandler();
       break;
-    case /motion-detector/.test(body.topic):
+    case /motion-detector.*event-count/.test(body.topic):
       const [,id] = /motion-detector:(\d+)/.exec(body.topic);
       await motion(id);
       break;
