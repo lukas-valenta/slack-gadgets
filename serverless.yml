@@ -17,3 +17,9 @@ functions:
       - http:
           method: get
           path: hello
+  data:
+    handler: handler.data
+    events:
+      - http:
+          method: post
+          path: data

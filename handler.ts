@@ -28,3 +28,10 @@ export const hello: APIGatewayProxyHandler = async (_event, _context) => {
     }
   };
 }
+
+export const data: APIGatewayProxyHandler = async (_event, _context) => {
+  return {
+    statusCode: 201,
+    body: 'Got it!',
+  };
+}
