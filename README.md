@@ -6,17 +6,21 @@ The ultimate goal of this project is to make office life easier by integrating I
 
 These are the application use-cases:
 
-* Meeting rooms
+* **Meeting rooms**
+
   * Push the button and switfly order a tea or coffee
   * Get notified when the air quality is not right
 
-* Shared kitchens
+* **Shared kitchens**
+
   * Push the button and be notified after some amount of time when the coffee machine finished its job
 
-* Offices
+* **Offices**
+
   * Get notified when the air quality is not right
 
-* Reception
+* **Reception**
+
   * Receive request notifications about the tea or coffee
   * Be aware when someone entered the meeting room which might not have been booked
 
