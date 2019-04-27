@@ -3,6 +3,7 @@ import { WebClient } from '@slack/web-api';
 import 'source-map-support/register';
 import { inspect } from 'util';
 import { motion } from './motion';
+import { hardwario } from './hardwario';
 
 export { default as cron } from './src/handlers/cron';
 
@@ -52,6 +53,8 @@ export const data: APIGatewayProxyHandler = async (event, _context) => {
       await motion(id);
       break;
     case /recv/.test(body.topic):
+      const payload = JSON.parse(body.payload);
+      await hardwario(payload);
       break;
 
     default:
