@@ -23,3 +23,9 @@ functions:
       - http:
           method: post
           path: data
+  cron:
+    handler: handler.cron
+    events:
+      - schedule: rate(1 minute)
+    environment:
+      SLACK_TOKEN: ${env:SLACK_TOKEN}
