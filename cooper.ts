@@ -1,7 +1,7 @@
 import { WebClient, ChatPostMessageArguments } from '@slack/web-api';
 
 // export const channelId = 'CHWRZT5NX'; // David-hardwario
-'CJ89EFT1N' - slack gadgets
+export const channelId = 'CJ89EFT1N'; // slack gadgets
 
 // BEWARE: Slack has limit of max 10 fields
 const co2Limit = 1400;
