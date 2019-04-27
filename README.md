@@ -25,7 +25,7 @@ The example floor plan could look as follows:
 ![Example floor plan](doc/floor-plan.png)
 
 
-## System Concept
+### System Concept
 
 The technology stack consists of the following major technologies:
 
