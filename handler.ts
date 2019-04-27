@@ -4,6 +4,8 @@ import 'source-map-support/register';
 import { inspect } from 'util';
 import { motion } from './motion';
 
+export { default as cron } from './src/handlers/cron';
+
 export const hello: APIGatewayProxyHandler = async (_event, _context) => {
   try {
     const data = {
@@ -12,7 +14,7 @@ export const hello: APIGatewayProxyHandler = async (_event, _context) => {
     };
     const web = new WebClient(process.env.SLACK_TOKEN);
     const response = await web.chat.postMessage(data);
-      
+
     return {
       statusCode: 200,
       body: JSON.stringify({
