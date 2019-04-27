@@ -37,7 +37,7 @@ export const motion = async (id: string) => {
         ':v1': `motion:${id}`,
       },
     }).promise();
-    const timeout = (gadget && gadget.Items.length && gadget.Items[0].timeout) ? Number(gadget.Items[0].timeout) : id;
+    const timeout = (gadget && gadget.Items.length && gadget.Items[0].timeout) ? Number(gadget.Items[0].timeout) : 1 * 60;
     if (lastMovement && lastMovement.Items.length && lastMovement.Items[0].timestamp && 
       ageInSeconds(Number(lastMovement.Items[0].timestamp)) > timeout) {
       const messageId = (gadget && gadget.Items.length && gadget.Items[0].alias) ? gadget.Items[0].alias : id;
