@@ -4,7 +4,15 @@ export const channelId = 'CHWRZT5NX'; // David-hardwario
 // 'CJ89EFT1N' - slack gadgets
 
 export const hardwario = async (payload: HardwarioPayload) => {
-  const block = composeSlackBlock(payload);
+  const fields = getRelevantFields(payload);
+  const block = {
+    "type": "section",
+    "text": {
+      "text": `*Hardwario ${payload.id}* sends periodic data ` + JSON.stringify(fields),
+      "type": "mrkdwn"
+    },
+    // fields: fields
+  };
 // const block = {
 //   "type": "section",
 //   "text": {
@@ -45,8 +53,8 @@ export const hardwario = async (payload: HardwarioPayload) => {
   }
 }
 
-function composeSlackBlock(payload: HardwarioPayload): any {
-  const fields = [
+function getRelevantFields(payload: HardwarioPayload): Array<any> {
+  let fields = [
     {
       "type": "mrkdwn",
       "text": "*Attribute*"
@@ -83,6 +91,8 @@ function composeSlackBlock(payload: HardwarioPayload): any {
       text: payload[prop]
     });
   });
+
+  return fields;
 }
 
 export interface HardwarioPayload {
