@@ -1,9 +1,13 @@
 import { WebClient } from '@slack/web-api';
 
 export const hardwario = async (payload: HardwarioPayload) => {
+  const block = composeSlackBlock(payload);
   const data = {
     'channel': 'CJ89EFT1N',
-    'text': `The CO2 levels are ${payload['co2-conc']}!`,
+    'text': `The CO2 levels are ${payload['co2-conc']}!`, // This should not be displayed
+    message: {
+      blocks: [block]
+    }
   };
 
   try {
@@ -12,6 +16,53 @@ export const hardwario = async (payload: HardwarioPayload) => {
   } catch (e) {
     console.log(e);
   }
+}
+
+function composeSlackBlock(payload: HardwarioPayload): any {
+  const fields = [
+    {
+      "type": "mrkdwn",
+      "text": "*Attribute*"
+    },
+    {
+      "type": "mrkdwn",
+      "text": "*Value*"
+    }
+  ];
+
+  const relevantValues = [
+   'rssi',
+   'sequence',
+   'altitude',
+   'co2-conc',
+   'humidity',
+   'illuminance',
+   'motion-count',
+   'orientation',
+   'press-count',
+   'pressure',
+   'sound-level',
+   'temperature',
+   'voc-conc',
+  ];
+
+  relevantValues.forEach((prop) => {
+    fields.push({
+      type: prop,
+      text: payload[prop]
+    });
+  });
+
+  const messageBlock = {
+    "type": "section",
+		"text": {
+			"text": `*Hardwario ${payload.id}* sends periodic data`,
+			"type": "mrkdwn"
+		},
+		"fields": fields
+  };
+
+  return messageBlock;
 }
 
 export interface HardwarioPayload {
