@@ -29,3 +29,11 @@ functions:
       - schedule: rate(1 minute)
     environment:
       SLACK_TOKEN: ${env:SLACK_TOKEN}
+  slash:
+    handler: handler.slash
+    events:
+      - http:
+          method: post
+          path: slash
+    environment:
+      SLACK_TOKEN: ${env:SLACK_TOKEN}

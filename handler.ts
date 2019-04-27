@@ -4,6 +4,9 @@ import 'source-map-support/register';
 import { inspect } from 'util';
 import { motion } from './motion';
 import { hardwario } from './hardwario';
+import pushButtonHandler from './src/handlers/push-button';
+import { setAlias } from './src/slashes/set-alias';
+import * as querystring from 'querystring';
 
 export { default as cron } from './src/handlers/cron';
 export { default as coffee } from './src/handlers/coffee';
@@ -46,29 +49,51 @@ export const data: APIGatewayProxyHandler = async (event, _context) => {
 
 
   try {
-  switch (true) {
-    case /push-button/.test(body.topic):
-      break;
-    case /motion-detector.*event-count/.test(body.topic):
-      const [,id] = /motion-detector:(\d+)/.exec(body.topic);
-      await motion(id);
-      break;
-    case /recv/.test(body.topic):
-      const payload = JSON.parse(body.payload);
-      await hardwario(payload);
-      break;
+    switch (true) {
+      case /push-button/.test(body.topic):
+        await pushButtonHandler();
+        break;
+      case /motion-detector.*event-count/.test(body.topic):
+        const [,id] = /motion-detector:(\d+)/.exec(body.topic);
+        await motion(id);
+        break;
+      case /recv/.test(body.topic):
+        const payload = JSON.parse(body.payload);
+        await hardwario(payload);
+        break;
+      default:
+    }
 
-    default:
-  }
-
-  return {
-    statusCode: 201,
-    body: 'Got it!',
-  };
+    return {
+      statusCode: 201,
+      body: 'Got it!',
+    };
   } catch (e) {
     return {
       statusCode: 400,
       body: inspect(e, false, 10),
     }
+  }
+}
+
+export const slash: APIGatewayProxyHandler = async (event, _context) => {
+  try {
+    const body = querystring.parse(event.body);
+    console.log(body);
+    if (!body || !body.command || !body.text) {
+      return {
+        statusCode: 400,
+        body: 'Invalid request',
+      };
+    }
+    switch (body.command) {
+      case '/set-gadget-alias':
+        return {
+          statusCode: 200,
+          body: await setAlias(<string>body.text),
+        }
+    }
+  } catch (e) {
+    console.log(e);
   }
 }
