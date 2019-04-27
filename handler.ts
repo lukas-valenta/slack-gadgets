@@ -9,7 +9,7 @@ export const hello: APIGatewayProxyHandler = async (_event, _context) => {
       'channel': 'CJ89EFT1N',
       'text': 'Hello, World!',
     };
-    const web = new WebClient('xoxb-610636479856-608835635555-92siNZYUqXnbgPiM9pnikvyc');
+    const web = new WebClient(process.env.SLACK_TOKEN);
     const response = await web.chat.postMessage(data);
       
     return {
