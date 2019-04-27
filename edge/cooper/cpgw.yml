@@ -1,0 +1,8 @@
+device: /dev/cu.usbserial-1410
+zmq:
+  publisher:
+    host: 127.0.0.1
+    port: 5680
+  dispatcher:
+    host: 127.0.0.1
+    port: 5681
