@@ -83,17 +83,6 @@ function composeSlackBlock(payload: HardwarioPayload): any {
       text: payload[prop]
     });
   });
-
-  const messageBlock = {
-    "type": "section",
-		"text": {
-			"text": `*Hardwario ${payload.id}* sends periodic data`,
-			"type": "mrkdwn"
-		},
-		"fields": fields
-  };
-
-  return messageBlock;
 }
 
 export interface HardwarioPayload {
