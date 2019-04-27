@@ -6,6 +6,7 @@ import { motion } from './motion';
 import { hardwario } from './cooper';
 import { setAlias } from './src/slashes/set-alias';
 import * as querystring from 'querystring';
+import { setMotionTimeout } from './src/slashes/set-motion-timeout';
 
 export { default as cron } from './src/handlers/cron';
 export { default as coffee } from './src/handlers/coffee';
@@ -91,8 +92,12 @@ export const slash: APIGatewayProxyHandler = async (event, _context) => {
           statusCode: 200,
           body: await setAlias(<string>body.text),
         }
+      case '/set-motion-timeout':
+        return {
+          statusCode: 200,
+          body: await setMotionTimeout(<string>body.text),
+        }
     }
   } catch (e) {
-    console.log(e);
   }
 }

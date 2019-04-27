@@ -15,7 +15,6 @@ export const motion = async (id: string) => {
   try {
     const db = new AWS.DynamoDB.DocumentClient();
     const lastMovement = await db.query({
-      //IndexName: 'id-timestamp-index',
       TableName: TABLE_NAME,
       Limit: 1,
       ScanIndexForward: false,
@@ -27,21 +26,21 @@ export const motion = async (id: string) => {
         ':v1': id,
       },
     }).promise();
+    const gadget = await db.query({
+      TableName: ALIAS_TABLE_NAME,
+      Limit: 1,
+      KeyConditionExpression: '#id = :v1',
+      ExpressionAttributeNames: {
+        '#id': 'id',
+      },
+      ExpressionAttributeValues: {
+        ':v1': `motion:${id}`,
+      },
+    }).promise();
+    const timeout = (gadget && gadget.Items.length && gadget.Items[0].timeout) ? Number(gadget.Items[0].timeout) : id;
     if (lastMovement && lastMovement.Items.length && lastMovement.Items[0].timestamp && 
-      ageInSeconds(Number(lastMovement.Items[0].timestamp)) > 1 * 60) {
-      const alias = await db.query({
-        TableName: ALIAS_TABLE_NAME,
-        Limit: 1,
-        KeyConditionExpression: '#id = :v1',
-        ExpressionAttributeNames: {
-          '#id': 'id',
-        },
-        ExpressionAttributeValues: {
-          ':v1': `motion:${id}`,
-        },
-      }).promise();
-      console.log(alias);
-      const messageId = (alias && alias.Items.length && alias.Items[0].alias) ? alias.Items[0].alias : id;
+      ageInSeconds(Number(lastMovement.Items[0].timestamp)) > timeout) {
+      const messageId = (gadget && gadget.Items.length && gadget.Items[0].alias) ? gadget.Items[0].alias : id;
       await web.chat.postMessage({
         'channel': 'CJ89EFT1N',
         'text': `Someone moved in room ${messageId}!`,
