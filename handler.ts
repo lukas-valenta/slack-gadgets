@@ -5,6 +5,8 @@ import { inspect } from 'util';
 import { motion } from './motion';
 import { hardwario } from './hardwario';
 
+export { default as cron } from './src/handlers/cron';
+
 export const hello: APIGatewayProxyHandler = async (_event, _context) => {
   try {
     const data = {
