@@ -1,13 +1,40 @@
-import { WebClient } from '@slack/web-api';
+import { WebClient, ChatPostMessageArguments } from '@slack/web-api';
+
+export const channelId = 'CHWRZT5NX'; // David-hardwario
+// 'CJ89EFT1N' - slack gadgets
 
 export const hardwario = async (payload: HardwarioPayload) => {
-  const block = composeSlackBlock(payload);
-  const data = {
-    'channel': 'CJ89EFT1N',
+  // const block = composeSlackBlock(payload);
+const block = {
+  "type": "section",
+  "text": {
+    "text": "*Hardwario ID* sends periodic data",
+    "type": "mrkdwn"
+  },
+  "fields": [
+    {
+      "type": "mrkdwn",
+      "text": "*Attribute*"
+    },
+    {
+      "type": "mrkdwn",
+      "text": "*Value*"
+    },
+    {
+      "type": "plain_text",
+      "text": "High"
+    },
+    {
+      "type": "plain_text",
+      "text": "String"
+    }]
+  };
+
+  const data: ChatPostMessageArguments = {
+    'channel': channelId,
     'text': `The CO2 levels are ${payload['co2-conc']}!`, // This should not be displayed
-    message: {
-      blocks: [block]
-    }
+     blocks: [block],
+     mrkdwn: true
   };
 
   try {
