@@ -45,52 +45,52 @@ const block = {
   }
 }
 
-function composeSlackBlock(payload: HardwarioPayload): any {
-  const fields = [
-    {
-      "type": "mrkdwn",
-      "text": "*Attribute*"
-    },
-    {
-      "type": "mrkdwn",
-      "text": "*Value*"
-    }
-  ];
+//function composeSlackBlock(payload: HardwarioPayload): any {
+  //const fields = [
+    //{
+      //"type": "mrkdwn",
+      //"text": "*Attribute*"
+    //},
+    //{
+      //"type": "mrkdwn",
+      //"text": "*Value*"
+    //}
+  //];
 
-  const relevantValues = [
-   'rssi',
-   'sequence',
-   'altitude',
-   'co2-conc',
-   'humidity',
-   'illuminance',
-   'motion-count',
-   'orientation',
-   'press-count',
-   'pressure',
-   'sound-level',
-   'temperature',
-   'voc-conc',
-  ];
+  //const relevantValues = [
+   //'rssi',
+   //'sequence',
+   //'altitude',
+   //'co2-conc',
+   //'humidity',
+   //'illuminance',
+   //'motion-count',
+   //'orientation',
+   //'press-count',
+   //'pressure',
+   //'sound-level',
+   //'temperature',
+   //'voc-conc',
+  //];
 
-  relevantValues.forEach((prop) => {
-    fields.push({
-      type: prop,
-      text: payload[prop]
-    });
-  });
+  //relevantValues.forEach((prop) => {
+    //fields.push({
+      //type: prop,
+      //text: payload[prop]
+    //});
+  //});
 
-  const messageBlock = {
-    "type": "section",
-		"text": {
-			"text": `*Hardwario ${payload.id}* sends periodic data`,
-			"type": "mrkdwn"
-		},
-		"fields": fields
-  };
+  //const messageBlock = {
+    //"type": "section",
+		//"text": {
+			//"text": `*Hardwario ${payload.id}* sends periodic data`,
+			//"type": "mrkdwn"
+		//},
+		//"fields": fields
+  //};
 
-  return messageBlock;
-}
+  //return messageBlock;
+//}
 
 export interface HardwarioPayload {
   rssi: number;
