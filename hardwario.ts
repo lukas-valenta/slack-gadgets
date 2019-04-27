@@ -4,6 +4,7 @@ export const channelId = 'CHWRZT5NX'; // David-hardwario
 // 'CJ89EFT1N' - slack gadgets
 
 // BEWARE: Slack has limit of max 10 fields
+const co2Limit = 1400;
 
 export const hardwario = async (payload: HardwarioPayload) => {
   let fields = getRelevantFields(payload);
@@ -11,16 +12,23 @@ export const hardwario = async (payload: HardwarioPayload) => {
   const block = {
     "type": "section",
     "text": {
-      "text": `*Hardwario ${payload.id}* sends periodic data ` + JSON.stringify(fields),
+      "text": `*Hardwario ${payload.id}* sends periodic data`,
       "type": "mrkdwn"
     },
     fields: fields
   };
 
+  const blocks = [block];
+
+  if (payload["co2-conc"] > co2Limit) {
+    const dangerBlock = getDangerBlock(payload["co2-conc"]);
+    blocks.push(<any>dangerBlock);
+  }
+
   const data: ChatPostMessageArguments = {
     'channel': channelId,
     'text': `The CO2 levels are ${payload['co2-conc']}!`, // This should not be displayed
-     blocks: [block],
+     blocks: blocks,
      mrkdwn: true
   };
 
@@ -83,6 +91,19 @@ function getRelevantFields(payload: HardwarioPayload): Array<any> {
   console.log('fields are', fields);
 
   return fields;
+}
+
+function getDangerBlock(co2Value) {
+  return {
+		"type": "image",
+		"title": {
+			"type": "plain_text",
+			"text": `DANGER! CO2 Level too high. Value is ${co2Value}, but limit is ${co2Limit}`,
+			"emoji": true
+		},
+		"image_url": "https://previews.123rf.com/images/konstantinks/konstantinks1406/konstantinks140600563/29540473-skull-and-bones-danger-triangular-sign-vector-illustration-.jpg",
+		"alt_text": "DANGER"
+	};
 }
 
 export interface HardwarioPayload {
