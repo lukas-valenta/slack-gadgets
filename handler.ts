@@ -4,7 +4,6 @@ import 'source-map-support/register';
 import { inspect } from 'util';
 import { motion } from './motion';
 import { hardwario } from './hardwario';
-import pushButtonHandler from './src/handlers/push-button';
 import { setAlias } from './src/slashes/set-alias';
 import * as querystring from 'querystring';
 
