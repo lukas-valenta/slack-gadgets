@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "serverless-offline": "^4.9.4",
     "source-map-support": "^0.5.10"
   },
