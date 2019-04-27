@@ -4,6 +4,7 @@ import 'source-map-support/register';
 import { inspect } from 'util';
 import { motion } from './motion';
 import { hardwario } from './hardwario';
+import pushButtonHandler from './src/handlers/push-button';
 
 export { default as cron } from './src/handlers/cron';
 
@@ -47,6 +48,7 @@ export const data: APIGatewayProxyHandler = async (event, _context) => {
   try {
   switch (true) {
     case /push-button/.test(body.topic):
+      await pushButtonHandler();
       break;
     case /motion-detector/.test(body.topic):
       const [,id] = /motion-detector:(\d+)/.exec(body.topic);
