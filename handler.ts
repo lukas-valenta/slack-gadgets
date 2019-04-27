@@ -2,6 +2,7 @@ import { APIGatewayProxyHandler } from 'aws-lambda';
 import { WebClient } from '@slack/web-api';
 import 'source-map-support/register';
 import { inspect } from 'util';
+import { motion } from './motion';
 
 export const hello: APIGatewayProxyHandler = async (_event, _context) => {
   try {
@@ -30,9 +31,38 @@ export const hello: APIGatewayProxyHandler = async (_event, _context) => {
   };
 }
 
-export const data: APIGatewayProxyHandler = async (_event, _context) => {
+export const data: APIGatewayProxyHandler = async (event, _context) => {
+  const body = JSON.parse(event.body);
+  if (!body || !body.topic || !body.topic.match(/(push-button|motion-detector|recv)/)) {
+    return {
+      statusCode: 400,
+      body: 'Invalid request',
+    };
+  }
+
+
+  try {
+  switch (true) {
+    case /push-button/.test(body.topic):
+      break;
+    case /motion-detector/.test(body.topic):
+      const [,id] = /motion-detector:(\d+)/.exec(body.topic);
+      await motion(id);
+      break;
+    case /recv/.test(body.topic):
+      break;
+
+    default:
+  }
+
   return {
     statusCode: 201,
     body: 'Got it!',
   };
+  } catch (e) {
+    return {
+      statusCode: 400,
+      body: inspect(e, false, 10),
+    }
+  }
 }
